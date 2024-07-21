@@ -1,19 +1,20 @@
 #include <ooo_cpu.h>
-#include "perceptron.h"
+#include "tage.h"
 
-perceptron perceptron_predict[NUM_CPUS];
+Tage tage_predictor[NUM_CPUS];
+
 
 void O3_CPU::initialize_branch_predictor()
 {
-    perceptron_predict[cpu].init();
+    tage_predictor[cpu].init();
 }
 
 uint8_t O3_CPU::predict_branch(uint64_t ip)
 {
-    return perceptron_predict[cpu].predict1(ip);
+    return tage_predictor[cpu].predict(ip);
 }
 
 void O3_CPU::last_branch_result(uint64_t ip, uint64_t branch_target, uint8_t taken, uint8_t branch_type)
 {
-    perceptron_predict[cpu].update1(ip, taken);
+    tage_predictor[cpu].update(ip, taken);
 }

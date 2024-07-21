@@ -19,16 +19,69 @@ git submodule update --init
 vcpkg/bootstrap-vcpkg.sh
 vcpkg/vcpkg install
 ```
-
 # Compile
+
+```branch``` folder in this directory includes all the code additions made by our team.
+
+In the file ```btb/basic_btb.cc``` change ```BTB_WAY = 2``` on line 27.
+
+Edit the configuration file under ```/ChampSim/champsim_config.json``` as
+
+```"branch_predictor": "gshare"``` or 
+```"branch_predictor": "perceptron"``` or 
+```"branch_predictor": "tage"``` or 
+```"branch_predictor": "hybrid_pt"``` or 
+```"branch_predictor": "hybrid_gp"``` or 
+```"branch_predictor": "hybrid_tg"```
+
+Run the following commands
+```
+$ ./config.sh champsim_config.json
+$ make
+```
+Optional step to save terminal output to file:
+```
+$ script gshare_602.txt
+```
+
+# Download traces
+
+Download the following traces from https://dpc3.compas.cs.stonybrook.edu/champsim-traces/speccpu/
+
+```
+$ 602.gcc_s-2226B.champsimtrace.xz
+$ 605.mcf_s-472B.champsimtrace.xz
+$ 625.x264_s-18B.champsimtrace.xz
+```
+
+Add them under the Champsim folder.
+
+# Run simulation
+
+Execute the binary directly. 
+
+```
+$ bin/champsim --warmup_instructions 200000000 --simulation_instructions 500000000 602.gcc_s-2226B.champsimtrace.xz
+$ bin/champsim --warmup_instructions 200000000 --simulation_instructions 500000000 605.mcf_s-472B.champsimtrace.xz
+$ bin/champsim --warmup_instructions 200000000 --simulation_instructions 500000000 625.x264_s-18B.champsimtrace.xz
+```
+
+
+# Evaluate Simulation
+
+ChampSim gives results for Instructions per Cycle, MPKI, Prediction Accuracy and MPKI lost to various branch types. <br>
+There are some other useful metrics printed out at the end of simulation. <br>
+This folder also contains the output generated and saved from the terminal that were used by us in the report.
+
+<!-- # Compile
 
 ChampSim takes a JSON configuration script. Examine `champsim_config.json` for a fully-specified example. All options described in this file are optional and will be replaced with defaults if not specified. The configuration scrip can also be run without input, in which case an empty file is assumed.
 ```
 $ ./config.sh <configuration file>
 $ make
-```
+``` -->
 
-# Download DPC-3 trace
+<!-- # Download DPC-3 trace
 
 Traces used for the 3rd Data Prefetching Championship (DPC-3) can be found here. (https://dpc3.compas.cs.stonybrook.edu/champsim-traces/speccpu/) A set of traces used for the 2nd Cache Replacement Championship (CRC-2) can be found from this link. (http://bit.ly/2t2nkUj)
 
@@ -82,4 +135,4 @@ Example tracing utilities are provided in the `tracer/` directory.
 ChampSim measures the IPC (Instruction Per Cycle) value as a performance metric. <br>
 There are some other useful metrics printed out at the end of simulation. <br>
 
-Good luck and be a champion! <br>
+Good luck and be a champion! <br> -->
